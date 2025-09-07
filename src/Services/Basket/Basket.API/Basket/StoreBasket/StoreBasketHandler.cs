@@ -12,7 +12,7 @@
         }
     }
 
-    public class StoreBasketCommandHandler //(IBasketRepository repository)
+    public class StoreBasketCommandHandler(IBasketRepository repository)
         : ICommandHandler<StoreBasketCommand, StoreBasketResult>
     {
         public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
@@ -21,9 +21,9 @@
 
             //TODO: store basket in database (use Marten upsert - if exist = update, if not exist = insert)
             //TODO: update cache
-            //await repository.StoreBasket(command.Cart, cancellationToken);
+            await repository.StoreBasket(command.Cart, cancellationToken);
 
-            return new StoreBasketResult("pnm");
+            return new StoreBasketResult(command.Cart.UserName);
         }
     }
 }
